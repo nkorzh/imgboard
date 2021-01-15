@@ -6,10 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
 
 
@@ -18,21 +15,29 @@ class HtmlController @Autowired constructor(private val repository: ArticleRepos
 
 
 
-    @GetMapping("/")
+    @RequestMapping("/", method = [RequestMethod.GET])
     fun blog(model: Model): String {
         model["title"] = properties.title
-        model["banner"] = properties.banner
+        model["banner"] = properties.banner // 
         model["footer"] = properties.footer
         model["articles"] = repository.findAll().asReversed().map { it.render() }
+        println("refresh\n")
+
         return "blog"
     }
 
-    @PostMapping("/")
-    fun addArticle(@RequestParam title: String, @RequestParam content: String, @RequestParam author: String, model: Model): String {
+    @RequestMapping("/", method = [RequestMethod.POST])
+    fun addArticle(@RequestParam title: String,
+                   @RequestParam content: String,
+                   @RequestParam author: String,
+                   model: Model): String {
+
+        println("got request\n")
         val article = Article(title,
                               content,
                               if (author.isEmpty()) "Anonymous" else author)
         repository.save(article)
+
         return blog(model)
     }
 
