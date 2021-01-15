@@ -2,40 +2,46 @@
 
 
 <div class="articles">
+<!--    button to close-->
     {{#banner.title}}
         <section>
             <header class="banner">
                 <h2 class="banner-title">{{banner.title}}</h2>
             </header>
             <div class="banner-content">
-                text2 {{banner.content}}
+                {{banner.content}}
             </div>
         </section>
     {{/banner.title}}
 
+    <div>
+        <form name = "New post" method="post">
+            <input type="text" name="title" placeholder="Enter post title" required minlength="4" maxlength="30"/>
+            <br>
+            <input type="text" name="content" placeholder="Write your post" required/>
+            <br>
+            <input type="text" name="author" placeholder="Enter your name" maxlength="50"/>
+            <br>
+            <button type="submit">Post</button>
+        </form>
+    </div>
+
     {{#articles}}
         <section>
             <header class="article-header">
-                <h2 class="article-title">
-                    <a href="/article/{{slug}}">
-                        {{title}}
-                    </a>
-                </h2>
-                <!-- article description !-->
+                <h3 class="article-title">
+                    <a href="/article/{{id}}">{{title}}</a>
+                </h3>
                 <div class="article-meta">
-                    By
-                    <strong>
-                        {{author.firstname}}
-                    </strong>, on
-                    <strong>
-                        {{addedAt}}
-                    </strong>
+                    By <strong>{{author}}</strong>, on <strong>{{date}}</strong>
                 </div>
             </header>
             <div class="article-description">
-                {{headline}}
+                {{content}}
             </div>
         </section>
     {{/articles}}
+
+</div>
 
 {{> footer}}

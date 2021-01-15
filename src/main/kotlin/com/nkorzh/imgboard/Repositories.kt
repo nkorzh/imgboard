@@ -1,12 +1,13 @@
 package com.nkorzh.imgboard
 
 import org.springframework.data.repository.CrudRepository
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+import javax.persistence.Id
 
-interface ArticleRepository : CrudRepository<Article, Long> {
-    fun findBySlug(slug: String): Article?
-    fun findAllByOrderByAddedAtDesc(): Iterable<Article>
-}
+@Repository
+interface ArticleRepository : JpaRepository<Article, Long> {
 
-interface UserRepository : CrudRepository<User, Long> {
-    fun findByLogin(login: String): User?
+//    fun findById(id: Id): Article?
+//    fun findAllByOrderByAddedAtDesc(): Iterable<Article>
 }

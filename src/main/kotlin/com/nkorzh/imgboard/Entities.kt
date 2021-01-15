@@ -1,22 +1,14 @@
+
 package com.nkorzh.imgboard
 
 import java.time.LocalDateTime
+import javax.annotation.processing.Generated
 import javax.persistence.*
 
 @Entity
-class Article(
-        var title: String,
-        var headline: String,
-        var content: String,
-        @ManyToOne var author: User,
-        var slug: String = title.toSlug(),
-        var addedAt: LocalDateTime = LocalDateTime.now(),
-        @Id @GeneratedValue var id: Long? = null)
-
-@Entity
-class User(
-        var login: String,
-        var firstname: String,
-        var lastname: String,
-        var description: String? = null,
-        @Id @GeneratedValue var id: Long? = null)
+@Table(name = "articles")
+class Article(@Column(name = "title") var title: String,
+              @Column(name = "content") var content: String,
+              @Column(name = "author") var author: String,
+              @Column(name = "date") var date: LocalDateTime = LocalDateTime.now(),
+              @Id @Column(name = "id") @GeneratedValue var id: Long = 0)
