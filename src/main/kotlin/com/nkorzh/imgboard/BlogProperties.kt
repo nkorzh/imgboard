@@ -1,4 +1,3 @@
-
 package com.nkorzh.imgboard
 
 import org.springframework.boot.context.properties.ConfigurationProperties

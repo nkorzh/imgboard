@@ -1,57 +1,71 @@
-//@file:Suppress("SpringJavaInjectionPointsAutowiringInspection")
 package com.nkorzh.imgboard
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
-import org.springframework.web.bind.annotation.*
-import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import javax.servlet.http.HttpServletRequest
 
 
 @Controller
 class HtmlController @Autowired constructor(private val repository: ArticleRepository, private val properties: BlogProperties) {
 
 
+    @GetMapping("/")
+    fun blog(model: Model,
+             request: HttpServletRequest,
+             @PageableDefault(sort = ["date"], direction = Sort.Direction.DESC) pageable: Pageable): String {
 
-    @RequestMapping("/", method = [RequestMethod.GET])
-    fun blog(model: Model): String {
+        val page = repository.findAll(pageable)
         model["title"] = properties.title
-        model["banner"] = properties.banner // 
         model["footer"] = properties.footer
-        model["articles"] = repository.findAll().asReversed().map { it.render() }
-        println("refresh\n")
-
+        // we can make some conditions for user warnings, though I decided to delete that
+//        model["banner"] = properties.banner
+        model["page"] = page
+        model["url"] = "/"
+        model["articles"] = page.map{ it.render() }.toList()
+        println("refresh: ${request.requestURL}")
         return "blog"
     }
 
-    @RequestMapping("/", method = [RequestMethod.POST])
-    fun addArticle(@RequestParam title: String,
-                   @RequestParam content: String,
-                   @RequestParam author: String,
-                   model: Model): String {
+    @GetMapping("/newpost")
+    fun renderNewpost(model: Model): String {
+        println("Came to newpost")
+        model["title"] = "Write new post"
+        model["footer"] = properties.footer
+        return "newpost"
+    }
 
-        println("got request\n")
-        val article = Article(title,
-                              content,
-                              if (author.isEmpty()) "Anonymous" else author)
+    // data classes for data transfer are magnificent!
+    @PostMapping("/newpost")
+    fun addArticle(@ModelAttribute article: Article, model: Model): String {
+
+        if (article.content.isEmpty()) article.content = "Anonymous"
         repository.save(article)
-
-        return blog(model)
+        return "redirect:/"
     }
 
     @GetMapping("/article/{id}")
     fun showArticle(@PathVariable id: Long, model: Model): String {
-        model["title"] = properties.title
-        model["footer"] = properties.footer
+
         val article = repository.findById(id)?.get().render(true)
-        
+        // null check is unnecessary, though, user can type in nonexistent id,
+        // thus potential error is prevented
         return if (article != null) {
             model["article"] = article
+            model["title"] = "Offrum: " + article.title
+            model["footer"] = properties.footer
+
             "article"
         } else
-            blog(model)
+            "redirect:/"
     }
 
     data class RenderedArticle(

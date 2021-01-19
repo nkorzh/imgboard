@@ -1,5 +1,25 @@
 # My small imageboard
+___
 
-## How to launch?
-1) IntelliJ IDEA 2020.3.1
-2) Execute <code>./gradlew kaptKotlin</code> in the root directory 
+## Что это?
+Форум, в который можно писать посты, подписанные кем угодно.
+
+Этот проект - проба инструментов, он не претендует на роль подтверждения знания 
+мной Spring Boot, Kotlin или профессионализма в БД.
+
+## Где посмотреть?
+Если вы читаете это после 21.01.2021, то проект размещен на AWS [здесь](), 
+если это не так, то он будет размещен после указанной даты.
+               
+## Инструменты   
+1) Kotlin
+2) Spring Boot
+3) Apache FreeMarker
+
+Kotlin был выбран ради скорости разработки и красоты кода. FreeMarker позволяет писать 
+код с макросами и переиспользовать элементы, например, заголовок или footer страницы.
+
+## How to launch  
+1) Use IntelliJ IDEA 2020.3.1
+2) Execute <code>./gradlew kaptKotlin</code> in the root directory
+
