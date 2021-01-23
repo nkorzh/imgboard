@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest
 
 
 @Controller
-class HtmlController @Autowired constructor(private val repository: ArticleRepository, private val properties: BlogProperties) {
-
+class HtmlController @Autowired constructor(private val repository: ArticleRepository,
+                                            private val properties: BlogProperties) {
 
     @GetMapping("/")
     fun blog(model: Model,
@@ -31,13 +31,11 @@ class HtmlController @Autowired constructor(private val repository: ArticleRepos
         model["page"] = page
         model["url"] = "/"
         model["articles"] = page.map{ it.render() }.toList()
-        println("refresh: ${request.requestURL}")
         return "blog"
     }
 
     @GetMapping("/newpost")
     fun renderNewpost(model: Model): String {
-        println("Came to newpost")
         model["title"] = "Write new post"
         model["footer"] = properties.footer
         return "newpost"

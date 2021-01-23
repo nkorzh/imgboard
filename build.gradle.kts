@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "2.4.1"
     id("io.spring.dependency-management") version "1.0.10.RELEASE"
     id("java")
+    id("org.flywaydb.flyway") version "7.5.1"
     kotlin("jvm") version "1.4.21"
     kotlin("plugin.spring") version "1.4.21"
     kotlin("plugin.allopen") version "1.3.61"
@@ -11,11 +12,11 @@ plugins {
     kotlin("kapt") version "1.4.21"
 }
 
-//dependencyManagement {
-//    imports {
-//        mavenBom(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
-//    }
-//}
+flyway {
+    url="jdbc:postgresql://165.232.72.20:5432/nkozh_db"
+    user="nkozh"
+    password="nkozh"
+}
 
 allOpen {
     annotation("javax.persistence.Entity")
@@ -42,6 +43,7 @@ dependencies {
     implementation("org.freemarker:freemarker")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     // database support
+    implementation("org.flywaydb:flyway-core")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(module = "junit")
