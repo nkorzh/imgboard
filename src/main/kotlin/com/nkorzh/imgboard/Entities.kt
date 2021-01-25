@@ -9,5 +9,5 @@ data class Article(@Column(name = "title") var title: String,
                    @Column(name = "content") var content: String,
                    @Column(name = "author") var author: String,
                    @Column(name = "date") var date: LocalDateTime = LocalDateTime.now(),
-                   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Long = 0)
-
+                   @Id @Column(name = "id") @GeneratedValue(strategy = GenerationType.IDENTITY)
+                   var id: Long = 0)
