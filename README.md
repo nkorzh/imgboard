@@ -1,25 +1,21 @@
 # My small imageboard
 ___
 
-## Что это?
-Форум, в который можно писать посты, подписанные кем угодно.
+## What is that?
+Anonymous forum with reader mode, which allows to post text-messages.
 
-Этот проект - проба инструментов, он не претендует на роль подтверждения знания 
-мной Spring Boot, Kotlin или профессионализма в БД.
-                                  
-## Где?
-* Сервер на Azure
-* База данных на сервере от Amazon(AWS)
+                                 
+## Where did you host it?
+* Azure server
+* Datebase at Amazon(AWS)
 
-## Инструменты   
+## Tools   
 1) Kotlin
 2) Spring Boot
 3) Apache FreeMarker
 4) IntelliJ IDEA 2020.3.1
 
-Kotlin был выбран ради скорости разработки и красоты кода. FreeMarker позволяет писать 
-код с макросами и переиспользовать элементы, например, заголовок или footer страницы.
-
+Kotlin was chosen because of a desire to speed up development and try something new. FreeMarker allows to write macro and re-use templates.
 
 ## How to launch  
 1) Create `.properties` file with following settings:
